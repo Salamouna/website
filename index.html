@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borderline Personality Disorder Assessment Quiz</title>
+    <style>
+        :root {
+            --primary-color: #0d6854;
+            --light-bg: #f8f9fa;
+            --border-radius: 8px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .disclaimer {
+            background-color: #fdf2f2;
+            border-left: 4px solid #ef4444;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .gender-selection {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .gender-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            width: 150px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .gender-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .gender-card.selected {
+            border-color: var(--primary-color);
+            background-color: #ecfdf5;
+        }
+        
+        .gender-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .quiz-form {
+            display: none;
+        }
+        
+        .quiz-instructions {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .question {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            display: block;
+            padding: 12px 15px;
+            background-color: var(--light-bg);
+            border: 1px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #edf2f7;
+            border-color: #cbd5e0;
+        }
+        
+        .option input {
+            margin-right: 10px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #0a574d;
+        }
+        
+        .nav-btn:disabled {
+            background-color: #cbd5e0;
+            cursor: not-allowed;
+        }
+        
+        .results {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .progress-container {
+            margin-bottom: 30px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .timer {
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 5px;
+        }
+        
+        .resource-links {
+            margin-top: 30px;
+        }
+        
+        .resource-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .resource-links a:hover {
+            text-decoration: underline;
+        }
+
+        .start-btn {
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.2s;
+        }
+        
+        .start-btn:hover {
+            background-color: #0a574d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Am I Borderline? Take the Test.</h1>
+            <p>A self-assessment quiz for Borderline Personality Disorder traits</p>
+        </header>
+        
+        <div class="intro">
+            <h2>About This Assessment</h2>
+            <p>This quiz is designed to help you assess whether you might have traits associated with Borderline Personality Disorder (BPD). The questions are based on common symptoms of BPD as outlined in diagnostic criteria.</p>
+            
+            <div class="disclaimer">
+                <strong>Important Disclaimer:</strong> This quiz is not a diagnostic tool. It cannot determine with certainty whether you have BPD. Only a qualified mental health professional can make an accurate diagnosis after a proper clinical assessment. If you're concerned about your mental health, please consult a healthcare provider.
+            </div>
+            
+            <p>The quiz takes approximately 5 minutes to complete. Please answer each question honestly for the most accurate results.</p>
+        </div>
+        
+        <div id="gender-selection">
+            <h2 style="text-align: center;">Choose your gender to start:</h2>
+            
+            <div class="gender-selection">
+                <div class="gender-card" onclick="selectGender('male')">
+                    <div class="gender-icon">♂️</div>
+                    <span>Male</span>
+                </div>
+                
+                <div class="gender-card" onclick="selectGender('female')">
+                    <div class="gender-icon">♀️</div>
+                    <span>Female</span>
+                </div>
+            </div>
+            
+            <button class="start-btn" onclick="startQuiz()" disabled id="start-btn">Start Test</button>
+        </div>
+        
+        <div id="quiz-form" class="quiz-form">
+            <div class="quiz-instructions">
+                <h3>Before you start...</h3>
+                <ul>
+                    <li>Your answers are anonymized, and we do not sell your data.</li>
+                    <li>So make sure to answer each question honestly for most accurate results.</li>
+                </ul>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="timer" id="timer">Question 1 of 15</div>
+            </div>
+            
+            <div id="question-container"></div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button>
+                <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+        
+        <div id="results" class="results">
+            <h2>Your Results</h2>
+            <div id="result-content"></div>
+            
+            <div class="resource-links">
+                <h3>Additional Resources</h3>
+                <p>If you're concerned about your results, here are some resources that may help:</p>
+                <ul>
+                    <li><a href="https://www.nimh.nih.gov/health/topics/borderline-personality-disorder" target="_blank">National Institute of Mental Health - BPD Information</a></li>
+                    <li><a href="https://www.nami.org/About-Mental-Illness/Mental-Health-Conditions/Borderline-Personality-Disorder" target="_blank">National Alliance on Mental Illness - BPD Resources</a></li>
+                    <li><a href="https://988lifeline.org/" target="_blank">988 Suicide & Crisis Lifeline</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "I often feel powerless.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 2,
+                text: "I find it difficult to measure my words.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 3,
+                text: "I feel like I am angry all the time.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 4,
+                text: "I am prone to suicidal thoughts.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 5,
+                text: "I often change my mind without any warning.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 6,
+                text: "I always have something to worry about.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 7,
+                text: "I often experience feelings of guilt and shame.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 8,
+                text: "I can't stay calm and collected during an argument.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 9,
+                text: "My goals are vague and unclear.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 10,
+                text: "I am a reckless driver.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 11,
+                text: "I can be extremely sarcastic.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 12,
+                text: "My behavior has been described as chaotic.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 13,
+                text: "I often engage in unsafe sex.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 14,
+                text: "I struggle to control angry feelings.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            },
+            {
+                id: 15,
+                text: "I often feel emotionally empty.",
+                options: [
+                    "Strongly Agree",
+                    "Agree",
+                    "Neutral",
+                    "Disagree",
+                    "Strongly Disagree"
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let selectedGender = null;
+        let answers = new Array(questions.length).fill(null);
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            document.querySelector(`.gender-card:nth-child(${gender === 'male' ? 1 : 2})`).classList.add('selected');
+            document.getElementById('start-btn').disabled = false;
+        }
+
+        function startQuiz() {
+            document.getElementById('gender-selection').style.display = 'none';
+            document.getElementById('quiz-form').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const questionContainer = document.getElementById('question-container');
+            
+            questionContainer.innerHTML = `
+                <div class="question-container">
+                    <div class="question">${question.text}</div>
+                    <div class="options">
+                        ${question.options.map((option, index) => `
+                            <label class="option">
+                                <input type="radio" name="q${question.id}" value="${index}" ${answers[currentQuestion] === index ? 'checked' : ''}>
+                                ${option}
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Update progress bar
+            const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progressPercentage}%`;
+            document.getElementById('timer').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').textContent = currentQuestion === questions.length - 1 ? 'Submit' : 'Next';
+            
+            // Add event listeners to radio buttons
+            document.querySelectorAll(`input[name="q${question.id}"]`).forEach((radio, index) => {
+                radio.addEventListener('change', () => {
+                    answers[currentQuestion] = index;
+                });
+            });
+        }
+
+        function nextQuestion() {
+            const radios = document.querySelectorAll(`input[name="q${questions[currentQuestion].id}"]`);
+            let selected = false;
+            
+            radios.forEach((radio) => {
+                if (radio.checked) {
+                    selected = true;
+                    answers[currentQuestion] = parseInt(radio.value);
+                }
+            });
+            
+            if (!selected) {
+                alert("Please select an answer before proceeding.");
+                return;
+            }
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function showResults() {
+            // Calculate score
+            let score = 0;
+            
+            answers.forEach((answer, index) => {
+                // For questions related to BPD symptoms, "Strongly Agree" (0) is 4 points, "Agree" (1) is 3 points, etc.
+                if (answer !== null) {
+                    // Reverse scoring: 0 -> 4 points, 1 -> 3 points, 2 -> 2 points, 3 -> 1 point, 4 -> 0 points
+                    score += 4 - answer;
+                }
+            });
+            
+            // Maximum possible score
+            const maxScore = questions.length * 4;
+            
+            // Calculate percentage
+            const percentage = (score / maxScore) * 100;
+            
+            // Determine result range
+            let resultMessage = "";
+            let recommendations = "";
+            
+            if (percentage >= 75) {
+                resultMessage = `<strong>High likelihood of BPD traits (${Math.round(percentage)}%):</strong> Your responses indicate a significant presence of traits associated with Borderline Personality Disorder.`;
+                recommendations = "Based on your results, we strongly recommend consulting with a mental health professional for a proper evaluation. Many effective treatments are available for BPD, including Dialectical Behavior Therapy (DBT) and other approaches.";
+            } else if (percentage >= 50) {
+                resultMessage = `<strong>Moderate likelihood of BPD traits (${Math.round(percentage)}%):</strong> Your responses suggest you may have some traits associated with Borderline Personality Disorder.`;
+                recommendations = "Consider speaking with a mental health professional to discuss your experiences and whether further assessment would be beneficial. Learning some emotional regulation skills might be helpful for you.";
+            } else if (percentage >= 25) {
+                resultMessage = `<strong>Low likelihood of BPD traits (${Math.round(percentage)}%):</strong> Your responses indicate some emotional challenges, but they may not be specifically related to BPD.`;
+                recommendations = "While your results don't strongly suggest BPD, if you're experiencing emotional distress, consider speaking with a mental health professional about other potential causes and appropriate support.";
+            } else {
+                resultMessage = `<strong>Very low likelihood of BPD traits (${Math.round(percentage)}%):</strong> Your responses indicate minimal presence of traits typically associated with BPD.`;
+                recommendations = "Your results suggest you're not experiencing significant symptoms related to BPD. However, if you're experiencing any emotional distress, it's always appropriate to seek support.";
+            }
+            
+            // Display results
+            document.getElementById('quiz-form').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            document.getElementById('result-content').innerHTML = `
+                <p>${resultMessage}</p>
+                <p>${recommendations}</p>
+                <div class="disclaimer">
+                    <strong>Remember:</strong> This quiz is not a diagnostic tool. Only a qualified mental health professional can make an accurate diagnosis after a proper clinical assessment.
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
